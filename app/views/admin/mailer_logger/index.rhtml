@@ -1,0 +1,8 @@
+<h2>Mail Logs</h2>
+<% if @mail_logs.empty? %>
+<p>No mail logs</p>
+<% else %>
+<p>Found <%= MailLog.count %> mail logs (<%= link_to 'purge all', mail_purge_path, :method => :delete, :confirm => 'are you sure you wish to delete all email logs?'%>)</p>
+<%= will_paginate @mail_logs %>
+<ul><%= render :partial => 'admin/mailer_logger/mail_log', :collection => @mail_logs %></ul>
+<% end %>

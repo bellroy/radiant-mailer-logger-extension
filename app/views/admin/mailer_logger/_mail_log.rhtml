@@ -1,0 +1,12 @@
+<li><strong><%= mail_log.form_name %></strong> <%= link_to image('remove', :alt => 'delete'), mail_url(mail_log), :method => :delete %>
+  <ul>
+    <% if mail_log.form_data.empty? %>
+    <li>No data in mail log "<%= mail_log.to_s %>"</li>
+    <% else %>
+    <%   mail_log.form_data.each do |heading,value| %>
+    <li><strong><em><%= heading %></em></strong>: <%=h value %></li>
+    <%   end %>
+    <% end %>
+    <li><em><%= mail_log.created_at.to_s :long %></em></li>
+  </ul>
+</li>
