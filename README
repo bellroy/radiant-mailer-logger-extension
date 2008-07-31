@@ -1,3 +1,17 @@
 = Mailer Logger
 
-Description goes here
+Extends Mailer with logging functionality.
+
+== Install
+
+1. From the app root type this command:
+
+  rake radiant:extensions:mailer_logger:install
+
+Which will copy some needed files to the public directory of your app.
+
+== License
+
+Mail Icon from http://commons.wikimedia.org/wiki/Image:Internet-mail.svg (from http://tango-project.org/) licensed under Creative Commons Attribution ShareAlike 2.5 http://creativecommons.org/licenses/by-sa/2.5/
+
+Success & Fail icons from http://www.kde-look.org/content/show.php?content=8341 under GNU LGPL http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License

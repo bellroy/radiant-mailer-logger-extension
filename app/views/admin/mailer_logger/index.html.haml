@@ -1,0 +1,38 @@
+%h1 Mail Logs
+- if @mail_logs.empty?
+  %p No mail logs
+- else
+  %p
+    Found
+    = MailLog.count
+    mail
+  %p= will_paginate @mail_logs
+
+  %table#mail.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0" }
+    %thead
+      %tr
+        %th.type
+          Mail Type
+        %th.content
+          Content
+        %th.success
+          Send Success?
+        %th.modify
+          Delete
+    %tbody
+      - @mail_logs.each do |mail_log|
+        %tr.node.level-1
+          %td.type
+            %a
+              = image('mail', :alt => 'mail-icon')
+              = mail_log.form_name.titlecase 
+          %td.content
+            %ul
+              - mail_log.form_data.each do |heading, value|
+                %li
+                  %strong= heading
+                  = h value
+          %td.success= image((mail_log.success ? 'success' : 'error'), :alt => mail_log.success?.to_s)
+          %td.remove= link_to image('remove', :alt => 'delete'), mail_url(mail_log), :method => :delete
+  %p= will_paginate @mail_logs
+  %p= link_to image('delete-mail', :alt => "Delete All"), layout_new_url
