@@ -1,0 +1,7 @@
+ul {
+  margin: 0;
+}
+ul {
+  list-style-position:inside;
+  list-style-type:square;
+}

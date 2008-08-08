@@ -2,7 +2,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MailLog do
   before(:each) do
-    @mail_log = MailLog.new
+    @mail_log = MailLog.new(
+      :success => true, 
+      :form_name => 'Name of form', 
+      :form_data => {:test => 'data'}
+    )
   end
 
   it "should be valid" do

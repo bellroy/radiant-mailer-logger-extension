@@ -1,38 +1,39 @@
+= stylesheet_link_tag 'admin/mailer_logger'
 %h1 Mail Logs
+%h2
+  = link_to_unless_current "All (#{MailLog.count})", mail_index_path
+  |
+  = link_to_unless_current "Sent (#{MailLog.sent_count})", sent_mail_path
+  |
+  = link_to_unless_current "Unsent (#{MailLog.unsent_count})", unsent_mail_path
 - if @mail_logs.empty?
-  %p No mail logs
+  %p None
 - else
-  %p
-    Found
-    = MailLog.count
-    mail
   %p= will_paginate @mail_logs
 
   %table#mail.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0" }
     %thead
       %tr
-        %th.type Mail Type
+        %th.type Mail Log
         %th.content Content
-        %th.success Send Success?
         %th.modify Delete
     %tbody
       - @mail_logs.each do |mail_log|
         %tr.node.level-1
           %td.type
-            %a
-              = image('mail', :alt => 'mail-icon')
-              = mail_log.form_name.titlecase 
+            - if mail_log.success?
+              %span.success= image('success', :alt => 'success')
+            - else
+              %span.error= image('error', :alt => 'error')
+            = image('mail', :alt => 'mail')
+            %strong= mail_log.form_name.titlecase
           %td.content
             %ul
               - mail_log.form_data.each do |heading, value|
                 %li
                   %strong= heading
+                  = ':'
                   = h value
-          %td.success
-            - if mail_log.success?
-              %span.error Failed
-            - else
-              %span.success Sent
           %td.remove= link_to image('remove', :alt => 'delete'), mail_url(mail_log), :method => :delete
   %p= will_paginate @mail_logs
   %p= link_to "Delete All #{MailLog.count} Mail Logs", mail_purge_path, :method => :delete, :confirm => 'are you sure you wish to delete all mail logs?'

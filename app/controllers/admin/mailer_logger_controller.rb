@@ -1,7 +1,21 @@
 class Admin::MailerLoggerController < ApplicationController
   def index
-    @mail_logs = MailLog.find(:all, :order => 'created_at DESC')
-    @mail_logs = MailLog.paginate :page => params[:page], :order => 'created_at DESC'
+    list
+    render :action => 'list'
+  end
+  
+  def list(*conditions)
+    @mail_logs = MailLog.paginate :page => params[:page], :order => 'created_at DESC', :conditions => conditions
+  end
+  
+  def sent
+    list 'success = true'
+    render :action => 'list'
+  end
+  
+  def unsent
+    list 'success = false'
+    render :action => 'list'
   end
   
   def destroy

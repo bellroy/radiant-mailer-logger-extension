@@ -1,6 +1,25 @@
 class MailLog < ActiveRecord::Base
   serialize :form_data
   
+  validates_presence_of :form_name
+  validates_presence_of :success
+  validates_presence_of :form_data
+  
+  def self.sent_count 
+    count :conditions => {:success => true}
+  end
+  def self.unsent_count
+    count :conditions => {:success => false}
+  end
+  
+  def sent?
+    success?
+  end
+  
+  def unsent?
+    !success?
+  end
+  
   def to_s
     if form_data.include?('name')
       form_data['name']
