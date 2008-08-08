@@ -1,4 +1,4 @@
-class MailerLoggerPage < MailerPage
+module MailerLogging
   protected
   def send_mail_with_log
     log = MailLog.create!(
@@ -8,5 +8,4 @@ class MailerLoggerPage < MailerPage
     )
     return log.success
   end
-  alias_method_chain :send_mail, :log
 end

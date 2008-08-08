@@ -11,14 +11,10 @@
   %table#mail.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0" }
     %thead
       %tr
-        %th.type
-          Mail Type
-        %th.content
-          Content
-        %th.success
-          Send Success?
-        %th.modify
-          Delete
+        %th.type Mail Type
+        %th.content Content
+        %th.success Send Success?
+        %th.modify Delete
     %tbody
       - @mail_logs.each do |mail_log|
         %tr.node.level-1
@@ -32,7 +28,11 @@
                 %li
                   %strong= heading
                   = h value
-          %td.success= image((mail_log.success ? 'success' : 'error'), :alt => mail_log.success?.to_s)
+          %td.success
+            - if mail_log.success?
+              %span.error Failed
+            - else
+              %span.success Sent
           %td.remove= link_to image('remove', :alt => 'delete'), mail_url(mail_log), :method => :delete
   %p= will_paginate @mail_logs
-  %p= link_to image('delete-mail', :alt => "Delete All"), layout_new_url
+  %p= link_to "Delete All #{MailLog.count} Mail Logs", mail_purge_path, :method => :delete, :confirm => 'are you sure you wish to delete all mail logs?'

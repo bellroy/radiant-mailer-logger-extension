@@ -1,5 +1,3 @@
-# Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
 gem 'mislav-will_paginate', '~> 2.2'
 require 'will_paginate'
 
@@ -19,7 +17,10 @@ class MailerLoggerExtension < Radiant::Extension
   end
   
   def activate
-    MailerLoggerPage
+    require 'mailer_logging'
+    require 'mailer_page'
+    MailerPage.send :include, MailerLogging
+    MailerPage.send :alias_method_chain, :send_mail, :log
     admin.tabs.add "Mail", "/admin/mail", :after => "Layouts", :visibility => [:all]
   end
   

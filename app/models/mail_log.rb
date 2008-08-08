@@ -11,6 +11,6 @@ class MailLog < ActiveRecord::Base
     end
   end
   def form_data=(form_data)
-    write_attribute :form_data, form_data.reject {|k,v| v.blank?}
+    self[:form_data] = form_data.reject {|k,v| v.blank?}
   end
 end
