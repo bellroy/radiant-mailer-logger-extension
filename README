@@ -4,9 +4,10 @@ Extends Mailer with logging functionality.
 
 == Install
 
-1. From the app root type this command:
+1. copy this code into vendor/extensions, e.g. by doing +git submodule add git://github.com/tricycle/radiant-mailer-logger-extension.git vendor/extensions/mailer_logger+
+2. From the app root type this command:
 
-  rake radiant:extensions:mailer_logger:install
+  rake radiant:extensions:mailer_logger:update
 
 Which will copy some needed files to the public directory of your app.
 
