@@ -15,6 +15,7 @@
     %thead
       %tr
         %th.type Mail Log
+        %th.date Date
         %th.content Content
         %th.modify Delete
     %tbody
@@ -27,6 +28,7 @@
               %span.error= image('error', :alt => 'error')
             = image('mail', :alt => 'mail')
             %strong= mail_log.form_name.titlecase
+          %td.date= mail_log.created_at.to_s(:db)
           %td.content
             %ul
               - mail_log.form_data.each do |heading, value|
