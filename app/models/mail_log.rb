@@ -5,19 +5,16 @@ class MailLog < ActiveRecord::Base
   validates_presence_of :success
   validates_presence_of :form_data
   
-  def self.sent_count 
-    count :conditions => {:success => true}
-  end
-  def self.unsent_count
-    count :conditions => {:success => false}
-  end
-  
   def sent?
     success?
   end
   
   def unsent?
     !success?
+  end
+  
+  def validate
+    errors.add :form_data, "Form data not valid" unless form_data.is_a? Hash
   end
   
   def to_s

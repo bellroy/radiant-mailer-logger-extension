@@ -1,16 +1,10 @@
 = stylesheet_link_tag 'admin/mailer_logger'
-%h1 Mail Logs
-%h2
-  = link_to_unless_current "All (#{MailLog.count})", mail_index_path
-  |
-  = link_to_unless_current "Sent (#{MailLog.sent_count})", sent_mail_path
-  |
-  = link_to_unless_current "Unsent (#{MailLog.unsent_count})", unsent_mail_path
+%h1= "Mail Logs (#{@mail_logs.size} if #{MailLog.count})"
 - if @mail_logs.empty?
   %p None
 - else
+  %p= link_to "Download all mail logs", :format => :csv
   %p= will_paginate @mail_logs
-
   %table#mail.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0" }
     %thead
       %tr
@@ -22,10 +16,6 @@
       - @mail_logs.each do |mail_log|
         %tr.node.level-1
           %td.type
-            - if mail_log.success?
-              %span.success= image('success', :alt => 'success')
-            - else
-              %span.error= image('error', :alt => 'error')
             = image('mail', :alt => 'mail')
             %strong= mail_log.form_name.titlecase
           %td.date= mail_log.created_at.to_s(:db)

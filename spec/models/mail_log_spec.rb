@@ -14,8 +14,14 @@ describe MailLog do
   end
   
   describe 'form_data' do
+    it 'should raise an error when the form_data is malformed' do
+      @mail_log.form_data = "--- !map:HashWithIndifferentAccess \narea of interest: Dentist\nname: Tam"
+      @mail_log.valid?
+      @mail_log.errors[:form_data].should_not be_nil
+    end
+    
     it 'should be serialized' do
-      @mail_log.form_data = {'a' => 1, 'b' => 2}
+      @mail_log.form_data = {'a' => 1, 'b' => 2}.with_indifferent_access
       @mail_log.save!
       MailLog.find(@mail_log).form_data.should == {'a' => 1, 'b' => 2}
     end
