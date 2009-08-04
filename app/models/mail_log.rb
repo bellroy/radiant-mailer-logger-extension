@@ -1,5 +1,5 @@
 class MailLog < ActiveRecord::Base
-  serialize :form_data
+  serialize :form_data, Hash
   
   validates_presence_of :form_name
   validates_presence_of :success
@@ -11,10 +11,6 @@ class MailLog < ActiveRecord::Base
   
   def unsent?
     !success?
-  end
-  
-  def validate
-    errors.add :form_data, "Form data not valid" unless form_data.is_a? Hash
   end
   
   def to_s

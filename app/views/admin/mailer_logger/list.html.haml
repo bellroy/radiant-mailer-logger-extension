@@ -1,5 +1,5 @@
 = stylesheet_link_tag 'admin/mailer_logger'
-%h1= "Mail Logs (#{@mail_logs.size} if #{MailLog.count})"
+%h1= "Mail Logs (#{@mail_logs.size} of #{MailLog.count})"
 - if @mail_logs.empty?
   %p None
 - else

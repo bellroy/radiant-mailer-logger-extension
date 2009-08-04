@@ -16,8 +16,7 @@ describe MailLog do
   describe 'form_data' do
     it 'should raise an error when the form_data is malformed' do
       @mail_log.form_data = "--- !map:HashWithIndifferentAccess \narea of interest: Dentist\nname: Tam"
-      @mail_log.valid?
-      @mail_log.errors[:form_data].should_not be_nil
+      lambda { @mail_log.valid? }.should raise_error(ActiveRecord::SerializationTypeMismatch)
     end
     
     it 'should be serialized' do
