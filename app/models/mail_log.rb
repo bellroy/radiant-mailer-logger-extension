@@ -2,7 +2,6 @@ class MailLog < ActiveRecord::Base
   serialize :form_data, Hash
   
   validates_presence_of :form_name
-  validates_presence_of :success
   validates_presence_of :form_data
   
   def sent?
