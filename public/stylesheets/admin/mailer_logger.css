@@ -1,7 +1,7 @@
-ul {
+#content ul {
   margin: 0;
 }
-ul {
+#content ul {
   list-style-position:inside;
   list-style-type:square;
 }

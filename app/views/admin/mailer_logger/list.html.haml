@@ -26,6 +26,6 @@
                   %strong= heading
                   = ':'
                   = h value
-          %td.remove= link_to image('remove', :alt => 'delete'), mail_url(mail_log), :method => :delete
+          %td.remove= link_to 'remove log', mail_url(mail_log), :method => :delete
   %p= will_paginate @mail_logs
   %p= link_to "Delete All #{MailLog.count} Mail Logs", mail_purge_path, :method => :delete, :confirm => 'are you sure you wish to delete all mail logs?'

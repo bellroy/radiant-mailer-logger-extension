@@ -1,26 +1,15 @@
-gem 'mislav-will_paginate', '~> 2.2'
-require 'will_paginate'
-
 class MailerLoggerExtension < Radiant::Extension
   version "1.0"
   description "All the functionality of a Mailer that also logs the mail in the Database"
   url "http://github.com/tricycle/radiant-mailer-logger-extension/"
   
-  define_routes do |map|
-  
-    map.with_options(:controller => 'admin/mailer_logger') do |logs|
-      logs.unsent_mail 'admin/mail/unsent', :action => 'unsent'
-      logs.sent_mail 'admin/mail/sent', :action => 'sent'
-    end
+  extension_config do |config|
+    config.gem 'mislav-will_paginate', :version => '~> 2.2', :lib => 'will_paginate'
+    config.gem 'haml', '~> 3.0.25'
 
-    map.mail_purge 'admin/mail/purge',
-      :controller => 'admin/mailer_logger', 
-      :action => 'purge', 
-      :conditions => {:method => :delete}
-      
-    map.resources :mail, 
-                  :controller => 'admin/mailer_logger',
-                  :path_prefix => 'admin'
+    # config.after_initialize do
+    #   run_something
+    # end
   end
   
   def activate
@@ -28,10 +17,9 @@ class MailerLoggerExtension < Radiant::Extension
     require 'mailer_page'
     MailerPage.send :include, MailerLogging
     MailerPage.send :alias_method_chain, :send_mail, :log
-    admin.tabs.add "Mail", "/admin/mail", :after => "Layouts", :visibility => [:all]
-  end
-  
-  def deactivate
-     admin.tabs.remove "Mail"
+
+    tab "Content" do
+      add_item "Mail", "/admin/mail", :visibility => [:all]
+    end
   end
 end
