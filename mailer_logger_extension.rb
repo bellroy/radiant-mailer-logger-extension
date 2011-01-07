@@ -4,7 +4,7 @@ class MailerLoggerExtension < Radiant::Extension
   url "http://github.com/tricycle/radiant-mailer-logger-extension/"
   
   extension_config do |config|
-    config.gem 'mislav-will_paginate', :version => '~> 2.2', :lib => 'will_paginate'
+    config.gem 'will_paginate', :version => '~> 2.2'
     config.gem 'haml', '~> 3.0.25'
 
     # config.after_initialize do
