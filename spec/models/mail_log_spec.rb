@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe MailLog do
   before(:each) do
     @mail_log = MailLog.new(
-      :success => true, 
-      :form_name => 'Name of form', 
+      :success => true,
+      :form_name => 'Name of form',
       :form_data => {:test => 'data'}
     )
   end
@@ -12,25 +12,27 @@ describe MailLog do
   it "should be valid" do
     @mail_log.should be_valid
   end
-  
+
   describe 'form_data' do
-    it 'should raise an error when the form_data is malformed' do
-      @mail_log.form_data = "--- !map:HashWithIndifferentAccess \narea of interest: Dentist\nname: Tam"
-      lambda { @mail_log.valid? }.should raise_error(ActiveRecord::SerializationTypeMismatch)
-    end
-    
     it 'should be serialized' do
       @mail_log.form_data = {'a' => 1, 'b' => 2}.with_indifferent_access
       @mail_log.save!
       MailLog.find(@mail_log).form_data.should == {'a' => 1, 'b' => 2}
     end
-    
+
     it 'should not store blank fields' do
       @mail_log.form_data = {:a => 1, :b => 2, :c => '', :d => '    ', :e => "\n\t", :f => nil}
       @mail_log.form_data.should == {:a => 1, :b => 2}
     end
+
+    it 'should just store an attachment\'s name' do
+      @mail_log.form_data = {
+        'attached_file' => mock('attachment', 'original_filename' => 'CV_D1.doc')
+      }
+      @mail_log.form_data['attached_file'].should == "CV_D1.doc"
+    end
   end
-  
+
   describe 'to_s' do
     describe 'when name present' do
       it 'should return the name' do
