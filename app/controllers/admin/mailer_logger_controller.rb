@@ -6,12 +6,13 @@ class Admin::MailerLoggerController < ApplicationController
   end
   
   def list
-    @mail_logs = MailLog.paginate :page => params[:page], :order => 'created_at DESC'
     respond_to do |format|
       format.csv do
+        @mail_logs = MailLog.find(:all, :order => 'created_at DESC')
         send_data(mail_logs_to_csv(@mail_logs), :type => 'text/csv; header=present', :filename => 'mail_logs.csv')
       end
       format.html do
+        @mail_logs = MailLog.paginate :page => params[:page], :order => 'created_at DESC'
         render :action => 'list'
       end
     end
